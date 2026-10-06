@@ -1,45 +1,186 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from "react";
+import { Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import Feather from "react-native-vector-icons/Feather";
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import Home from "./src/screens/Home";
+import Profile from "./src/screens/Profile";
+import Reels from "./src/screens/Reels";
+import Search from "./src/screens/Search";
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+import "./global.css";
 
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
+
+
+// ----------------------
+// Bottom Tab Navigator
+// ----------------------
+
+const MyTabs = () => {
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: "black",
+          height: 80,
+        },
+        tabBarActiveTintColor: "#008069",
+        tabBarInactiveTintColor: "#667781",
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              className={`items-center justify-center w-16 h-8 rounded-full ${
+                focused ? "bg-green-100" : "bg-transparent"
+              }`}
+            >
+              <Feather
+                name="home"
+                size={22}
+                color={focused ? "#008069" : "#667781"}
+              />
+            </View>
+          ),
+        }}
       />
-    </View>
-  );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+      <Tab.Screen
+        name="Reels"
+        component={Reels}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              className={`items-center justify-center w-16 h-8 rounded-full ${
+                focused ? "bg-green-100" : "bg-transparent"
+              }`}
+            >
+              <Feather
+                name="video"
+                size={20}
+                color={focused ? "#008069" : "#667781"}
+              />
+            </View>
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              className={`items-center justify-center w-16 h-8 rounded-full ${
+                focused ? "bg-green-100" : "bg-transparent"
+              }`}
+            >
+              <Feather
+                name="search"
+                size={20}
+                color={focused ? "#008069" : "#667781"}
+              />
+            </View>
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              className={`items-center justify-center w-16 h-8 rounded-full ${
+                focused ? "bg-green-100" : "bg-transparent"
+              }`}
+            >
+              <Feather
+                name="user"
+                size={20}
+                color={focused ? "#008069" : "#667781"}
+              />
+            </View>
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+
+// ----------------------
+// Stack Navigator
+// ----------------------
+
+const MyStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="MainTabs"
+        component={MyTabs}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="ProfileDetails"
+        component={Profile}
+        options={{
+          title: "Profile",
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+
+// ----------------------
+// Drawer Navigator
+// ----------------------
+
+const MyDrawer = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen
+        name="Main"
+        component={MyStack}
+        options={{
+          title: "Home",
+        }}
+      />
+
+      <Drawer.Screen
+        name="Profile"
+        component={Profile}
+      />
+    </Drawer.Navigator>
+  );
+};
+
+
+// ----------------------
+// App
+// ----------------------
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <MyDrawer />
+    </NavigationContainer>
+  );
+};
 
 export default App;
