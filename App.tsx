@@ -1,26 +1,21 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+// import { createDrawerNavigator } from "@react-navigation/drawer";
 import Feather from "react-native-vector-icons/Feather";
-
+import AntDesign from "react-native-vector-icons/AntDesign";
 import Home from "./src/screens/Home";
 import Profile from "./src/screens/Profile";
 import Reels from "./src/screens/Reels";
 import Search from "./src/screens/Search";
-
 import "./global.css";
+import Dashboard from "./src/screens/Dashboard";
 
-const Stack = createNativeStackNavigator();
+// const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const Drawer = createDrawerNavigator();
-
-
-// ----------------------
-// Bottom Tab Navigator
-// ----------------------
+// const Drawer = createDrawerNavigator();
 
 const MyTabs = () => {
   return (
@@ -48,6 +43,25 @@ const MyTabs = () => {
             >
               <Feather
                 name="home"
+                size={22}
+                color={focused ? "#008069" : "#667781"}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              className={`items-center justify-center w-16 h-8 rounded-full ${
+                focused ? "bg-green-100" : "bg-transparent"
+              }`}
+            >
+              <AntDesign
+                name="dashboard"
                 size={22}
                 color={focused ? "#008069" : "#667781"}
               />
@@ -119,66 +133,52 @@ const MyTabs = () => {
   );
 };
 
+// const MyStack = () => {
+//   return (
+//     <Stack.Navigator>
+//       <Stack.Screen
+//         name="MainTabs"
+//         component={MyTabs}
+//         options={{
+//           headerShown: false,
+//         }}
+//       />
 
-// ----------------------
-// Stack Navigator
-// ----------------------
-
-const MyStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="MainTabs"
-        component={MyTabs}
-        options={{
-          headerShown: false,
-        }}
-      />
-
-      <Stack.Screen
-        name="ProfileDetails"
-        component={Profile}
-        options={{
-          title: "Profile",
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
+//       <Stack.Screen
+//         name="ProfileDetails"
+//         component={Profile}
+//         options={{
+//           title: "Profile",
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// };
 
 
-// ----------------------
-// Drawer Navigator
-// ----------------------
+// const MyDrawer = () => {
+//   return (
+//     <Drawer.Navigator>
+//       <Drawer.Screen
+//         name="Main"
+//         component={MyStack}
+//         options={{
+//           title: "Home",
+//         }}
+//       />
 
-const MyDrawer = () => {
-  return (
-    <Drawer.Navigator>
-      <Drawer.Screen
-        name="Main"
-        component={MyStack}
-        options={{
-          title: "Home",
-        }}
-      />
-
-      <Drawer.Screen
-        name="Profile"
-        component={Profile}
-      />
-    </Drawer.Navigator>
-  );
-};
-
-
-// ----------------------
-// App
-// ----------------------
+//       <Drawer.Screen
+//         name="Profile"
+//         component={Profile}
+//       />
+//     </Drawer.Navigator>
+//   );
+// };
 
 const App = () => {
   return (
     <NavigationContainer>
-      <MyDrawer />
+      <MyTabs />
     </NavigationContainer>
   );
 };
